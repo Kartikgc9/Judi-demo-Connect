@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PropertyConnect - Search Properties</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+  <header class="bg-blue-600 text-white py-4 fixed w-full top-0 z-10">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">PropertyConnect</h1>
+      <nav>
+        <a href="index.html" class="px-4 hover:underline">Home</a>
+        <a href="search.html" class="px-4 hover:underline">Search Properties</a>
+        <a href="agents.html" class="px-4 hover:underline">For Agents</a>
+        <a href="contact.html" class="px-4 hover:underline">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="pt-20">
+    <section class="container mx-auto py-12">
+      <h2 class="text-3xl font-bold text-center mb-6">Search Properties</h2>
+      <div class="bg-white p-6 rounded shadow mb-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <input type="text" placeholder="Location (e.g., Chicago, IL)" class="border p-2 rounded">
+          <select class="border p-2 rounded">
+            <option>Property Type</option>
+            <option>Apartment</option>
+            <option>House</option>
+            <option>Land</option>
+          </select>
+          <input type="number" placeholder="Max Price ($)" class="border p-2 rounded">
+          <button class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Search</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <h3 class="text-xl font-bold mb-4">Results</h3>
+          <div class="bg-white rounded shadow overflow-hidden mb-4">
+            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Apartment" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h4 class="text-lg font-semibold">Cozy Downtown Apartment</h4>
+              <p class="text-gray-600">Faridabad, Haryana | Rs-2,000/month | 1 Bed, 1 Bath</p>
+              <p class="text-sm text-gray-500 mt-2">Verified with virtual tour. Near top schools.</p>
+              <a href="#" class="text-blue-600 hover:underline mt-2 inline-block">View Details</a>
+            </div>
+          </div>
+          <div class="bg-white rounded shadow overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde" alt="House" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h4 class="text-lg font-semibold">Spacious Family Home</h4>
+              <p class="text-gray-600">Palwal, Haryana | Rs-600,000 | 3 Bed, 2 Bath</p>
+              <p class="text-sm text-gray-500 mt-2">AI rate analysis: 5% above market value.</p>
+              <a href="#" class="text-blue-600 hover:underline mt-2 inline-block">View Details</a>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-4">Map View</h3>
+          <div class="bg-gray-200 h-96 rounded">
+            <!-- Placeholder for Mapbox integration -->
+            <p class="text-center pt-40 text-gray-600">Mapbox GL JS map placeholder</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-gray-800 text-white py-4">
+    <div class="container mx-auto text-center">
+      <p>© 2025 PropertyConnect. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html> 
