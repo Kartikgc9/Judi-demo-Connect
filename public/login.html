@@ -288,21 +288,30 @@
             password: formData.get('password')
           };
 
-          const response = await API.auth.login(credentials);
+          // Simulate API response for development
+          await new Promise(resolve => setTimeout(resolve, 1000));
           
-          // Store token
-          localStorage.setItem('token', response.token);
+          // Simulate user data based on email
+          const userData = {
+            name: credentials.email.includes('agent') ? 'Agent User' : 'Regular User',
+            email: credentials.email,
+            role: credentials.email.includes('agent') ? 'agent' : 'user'
+          };
           
-          API.showNotification('Login successful!', 'success');
+          // Store user data and token
+          localStorage.setItem('user', JSON.stringify(userData));
+          localStorage.setItem('token', 'sample-jwt-token');
+          
+          alert('Login successful!');
           
           // Redirect based on user role
           setTimeout(() => {
-            if (response.user.isAgent) {
+            if (userData.role === 'agent') {
               window.location.href = 'agent-dashboard.html';
             } else {
-              window.location.href = 'index.html';
+              window.location.href = 'user-dashboard.html';
             }
-          }, 1000);
+          }, 500);
 
         } catch (error) {
           API.handleError(error);
@@ -346,20 +355,22 @@
             role: formData.get('role')
           };
 
-          const response = await API.auth.register(userData);
+          // Simulate API response for development
+          await new Promise(resolve => setTimeout(resolve, 1000));
           
-          // Store token
-          localStorage.setItem('token', response.token);
+          // Store user data and token
+          localStorage.setItem('user', JSON.stringify(userData));
+          localStorage.setItem('token', 'sample-jwt-token');
           
-          API.showNotification('Account created successfully!', 'success');
+          alert('Account created successfully!');
           
           // Close modal and redirect
           setTimeout(() => {
             registerModal.classList.add('hidden');
-            if (response.user.isAgent) {
-              window.location.href = 'agent-setup.html';
+            if (userData.role === 'agent') {
+              window.location.href = 'agent-registration.html';
             } else {
-              window.location.href = 'index.html';
+              window.location.href = 'user-dashboard.html';
             }
           }, 1000);
 

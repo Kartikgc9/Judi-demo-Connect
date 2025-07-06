@@ -5,74 +5,554 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PropertyConnect - Search Properties</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 font-sans">
-  <header class="bg-blue-600 text-white py-4 fixed w-full top-0 z-10">
-    <div class="container mx-auto flex justify-between items-center">
+<body class="bg-gray-50 font-sans">
+  <header class="bg-blue-600 text-white py-4 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center px-4">
       <h1 class="text-2xl font-bold">PropertyConnect</h1>
-      <nav>
+      <nav class="flex items-center space-x-4">
         <a href="index.html" class="px-4 hover:underline">Home</a>
-        <a href="search.html" class="px-4 hover:underline">Search Properties</a>
+        <a href="search.html" class="px-4 hover:underline font-semibold">Search Properties</a>
         <a href="agents.html" class="px-4 hover:underline">For Agents</a>
         <a href="contact.html" class="px-4 hover:underline">Contact</a>
+        <div class="flex items-center space-x-2">
+          <button onclick="checkAuthAndRedirect()" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded text-sm">
+            <i class="fas fa-plus mr-1"></i>List Property
+          </button>
+          <a href="login.html" class="bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded text-sm">Login</a>
+        </div>
       </nav>
     </div>
   </header>
 
-  <main class="pt-20">
-    <section class="container mx-auto py-12">
-      <h2 class="text-3xl font-bold text-center mb-6">Search Properties</h2>
-      <div class="bg-white p-6 rounded shadow mb-8">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <input type="text" placeholder="Location (e.g., Chicago, IL)" class="border p-2 rounded">
-          <select class="border p-2 rounded">
-            <option>Property Type</option>
-            <option>Apartment</option>
-            <option>House</option>
-            <option>Land</option>
-          </select>
-          <input type="number" placeholder="Max Price ($)" class="border p-2 rounded">
-          <button class="bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Search</button>
+  <main class="pt-4">
+    <!-- Search Header -->
+    <section class="bg-white shadow-md py-6">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Find Your Perfect Property</h2>
+        
+        <!-- Main Search Bar -->
+        <div class="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <form id="searchForm" class="space-y-4">
+            <!-- Primary Search Row -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div class="relative">
+                <i class="fas fa-map-marker-alt absolute left-3 top-3 text-gray-400"></i>
+                <input 
+                  type="text" 
+                  id="location" 
+                  name="location"
+                  placeholder="Enter city, area, or locality" 
+                  class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                >
+              </div>
+              
+              <select name="propertyType" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                <option value="">All Property Types</option>
+                <option value="apartment">Apartment</option>
+                <option value="house">Independent House</option>
+                <option value="villa">Villa</option>
+                <option value="plot">Plot/Land</option>
+                <option value="commercial">Commercial</option>
+                <option value="office">Office Space</option>
+              </select>
+              
+              <div class="relative">
+                <i class="fas fa-rupee-sign absolute left-3 top-3 text-gray-400"></i>
+                <input 
+                  type="number" 
+                  name="maxPrice"
+                  placeholder="Max Price" 
+                  class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                >
+              </div>
+              
+              <button 
+                type="submit" 
+                class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-200 font-semibold"
+              >
+                <i class="fas fa-search mr-2"></i>Search
+              </button>
+            </div>
+
+            <!-- Advanced Filters Toggle -->
+            <div class="text-center">
+              <button 
+                type="button" 
+                id="advancedToggle"
+                class="text-blue-600 hover:text-blue-800 text-sm font-medium"
+              >
+                <i class="fas fa-filter mr-1"></i>Advanced Filters
+                <i class="fas fa-chevron-down ml-1 transition-transform duration-200"></i>
+              </button>
+            </div>
+
+            <!-- Advanced Filters Section -->
+            <div id="advancedFilters" class="hidden bg-gray-50 p-4 rounded-lg border">
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Min Price (₹)</label>
+                  <input type="number" name="minPrice" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500" placeholder="Min Price">
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Bedrooms</label>
+                  <select name="bedrooms" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">Any</option>
+                    <option value="1">1 BHK</option>
+                    <option value="2">2 BHK</option>
+                    <option value="3">3 BHK</option>
+                    <option value="4">4 BHK</option>
+                    <option value="5">5+ BHK</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Bathrooms</label>
+                  <select name="bathrooms" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">Any</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4+</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Listing Type</label>
+                  <select name="listingType" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">Buy & Rent</option>
+                    <option value="sale">For Sale</option>
+                    <option value="rent">For Rent</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Min Area (sq ft)</label>
+                  <input type="number" name="minArea" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500" placeholder="Min Area">
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Max Area (sq ft)</label>
+                  <input type="number" name="maxArea" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500" placeholder="Max Area">
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Listed By</label>
+                  <select name="listedBy" class="w-full px-3 py-2 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">Anyone</option>
+                    <option value="agent">Agents Only</option>
+                    <option value="owner">Owners Only</option>
+                  </select>
+                </div>
+                
+                <div class="flex items-end">
+                  <button 
+                    type="button" 
+                    onclick="clearFilters()"
+                    class="w-full bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 transition duration-200"
+                  >
+                    Clear Filters
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Amenities Filter -->
+              <div class="mt-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Amenities</label>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2">
+                  <label class="flex items-center text-sm">
+                    <input type="checkbox" name="amenities" value="parking" class="mr-2"> Parking
+                  </label>
+                  <label class="flex items-center text-sm">
+                    <input type="checkbox" name="amenities" value="gym" class="mr-2"> Gym
+                  </label>
+                  <label class="flex items-center text-sm">
+                    <input type="checkbox" name="amenities" value="pool" class="mr-2"> Swimming Pool
+                  </label>
+                  <label class="flex items-center text-sm">
+                    <input type="checkbox" name="amenities" value="security" class="mr-2"> Security
+                  </label>
+                  <label class="flex items-center text-sm">
+                    <input type="checkbox" name="amenities" value="garden" class="mr-2"> Garden
+                  </label>
+                  <label class="flex items-center text-sm">
+                    <input type="checkbox" name="amenities" value="elevator" class="mr-2"> Elevator
+                  </label>
+                  <label class="flex items-center text-sm">
+                    <input type="checkbox" name="amenities" value="balcony" class="mr-2"> Balcony
+                  </label>
+                  <label class="flex items-center text-sm">
+                    <input type="checkbox" name="amenities" value="furnished" class="mr-2"> Furnished
+                  </label>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
+    </section>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <h3 class="text-xl font-bold mb-4">Results</h3>
-          <div class="bg-white rounded shadow overflow-hidden mb-4">
-            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Apartment" class="w-full h-48 object-cover">
-            <div class="p-4">
-              <h4 class="text-lg font-semibold">Cozy Downtown Apartment</h4>
-              <p class="text-gray-600">Faridabad, Haryana | Rs-2,000/month | 1 Bed, 1 Bath</p>
-              <p class="text-sm text-gray-500 mt-2">Verified with virtual tour. Near top schools.</p>
-              <a href="#" class="text-blue-600 hover:underline mt-2 inline-block">View Details</a>
+    <!-- Results Section -->
+    <section class="container mx-auto px-4 py-8">
+      <div class="flex flex-col lg:flex-row gap-8">
+        
+        <!-- Search Results -->
+        <div class="lg:w-2/3">
+          <!-- Results Header -->
+          <div class="flex justify-between items-center mb-6">
+            <div>
+              <h3 class="text-2xl font-bold text-gray-800">Search Results</h3>
+              <p class="text-gray-600" id="resultsCount">Found 0 properties</p>
+            </div>
+            <div class="flex items-center space-x-4">
+              <select id="sortBy" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                <option value="relevance">Sort by Relevance</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="newest">Newest First</option>
+                <option value="area-large">Area: Largest First</option>
+              </select>
+              
+              <div class="flex border border-gray-300 rounded">
+                <button id="gridView" class="px-3 py-2 bg-blue-600 text-white rounded-l">
+                  <i class="fas fa-th"></i>
+                </button>
+                <button id="listView" class="px-3 py-2 bg-gray-200 text-gray-600 rounded-r">
+                  <i class="fas fa-list"></i>
+                </button>
+              </div>
             </div>
           </div>
-          <div class="bg-white rounded shadow overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde" alt="House" class="w-full h-48 object-cover">
-            <div class="p-4">
-              <h4 class="text-lg font-semibold">Spacious Family Home</h4>
-              <p class="text-gray-600">Palwal, Haryana | Rs-600,000 | 3 Bed, 2 Bath</p>
-              <p class="text-sm text-gray-500 mt-2">AI rate analysis: 5% above market value.</p>
-              <a href="#" class="text-blue-600 hover:underline mt-2 inline-block">View Details</a>
+
+          <!-- Property Listings -->
+          <div id="propertyResults" class="space-y-6">
+            <!-- Loading state -->
+            <div id="loadingState" class="text-center py-12">
+              <i class="fas fa-spinner fa-spin text-4xl text-blue-600 mb-4"></i>
+              <p class="text-gray-600">Searching properties...</p>
+            </div>
+
+            <!-- No results state -->
+            <div id="noResultsState" class="hidden text-center py-12">
+              <i class="fas fa-search text-4xl text-gray-400 mb-4"></i>
+              <h3 class="text-xl font-semibold text-gray-700 mb-2">No properties found</h3>
+              <p class="text-gray-600 mb-4">Try adjusting your search criteria or browse all properties</p>
+              <button onclick="clearFilters()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                Clear Filters
+              </button>
+            </div>
+
+            <!-- Sample Results -->
+            <div id="sampleResults">
+              <!-- Property Card 1 -->
+              <div class="property-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                <div class="md:flex">
+                  <div class="md:w-1/3">
+                    <div class="relative">
+                      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Property" class="w-full h-48 md:h-full object-cover">
+                      <div class="absolute top-2 left-2">
+                        <span class="bg-green-600 text-white px-2 py-1 rounded text-xs font-semibold">VERIFIED</span>
+                      </div>
+                      <div class="absolute top-2 right-2">
+                        <button class="bg-white bg-opacity-80 p-2 rounded-full hover:bg-opacity-100 transition">
+                          <i class="fas fa-heart text-gray-600"></i>
+                        </button>
+                      </div>
+                      <div class="absolute bottom-2 left-2">
+                        <span class="bg-blue-600 text-white px-2 py-1 rounded text-xs">FOR SALE</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="md:w-2/3 p-6">
+                    <div class="flex justify-between items-start mb-2">
+                      <h4 class="text-xl font-bold text-gray-800">Luxury 3BHK Apartment</h4>
+                      <div class="text-right">
+                        <p class="text-2xl font-bold text-blue-600">₹85,00,000</p>
+                        <p class="text-sm text-gray-500">₹7,083/sq ft</p>
+                      </div>
+                    </div>
+                    
+                    <div class="flex items-center text-gray-600 mb-3">
+                      <i class="fas fa-map-marker-alt mr-2"></i>
+                      <span>Bandra West, Mumbai, Maharashtra</span>
+                    </div>
+                    
+                    <div class="flex items-center space-x-6 text-sm text-gray-600 mb-4">
+                      <span><i class="fas fa-bed mr-1"></i> 3 Beds</span>
+                      <span><i class="fas fa-bath mr-1"></i> 2 Baths</span>
+                      <span><i class="fas fa-ruler-combined mr-1"></i> 1200 sq ft</span>
+                      <span><i class="fas fa-calendar mr-1"></i> 2 days ago</span>
+                    </div>
+                    
+                    <p class="text-gray-700 text-sm mb-4">Beautiful apartment with modern amenities, great location near metro station...</p>
+                    
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d" alt="Agent" class="w-8 h-8 rounded-full mr-2">
+                        <div>
+                          <p class="text-sm font-medium text-gray-800">Priya Sharma</p>
+                          <p class="text-xs text-gray-500">Licensed Agent</p>
+                        </div>
+                      </div>
+                      <div class="flex space-x-2">
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700 transition">
+                          View Details
+                        </button>
+                        <button class="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700 transition">
+                          <i class="fas fa-phone mr-1"></i> Call
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Property Card 2 -->
+              <div class="property-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                <div class="md:flex">
+                  <div class="md:w-1/3">
+                    <div class="relative">
+                      <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde" alt="Property" class="w-full h-48 md:h-full object-cover">
+                      <div class="absolute top-2 left-2">
+                        <span class="bg-yellow-600 text-white px-2 py-1 rounded text-xs font-semibold">OWNER</span>
+                      </div>
+                      <div class="absolute top-2 right-2">
+                        <button class="bg-white bg-opacity-80 p-2 rounded-full hover:bg-opacity-100 transition">
+                          <i class="fas fa-heart text-gray-600"></i>
+                        </button>
+                      </div>
+                      <div class="absolute bottom-2 left-2">
+                        <span class="bg-purple-600 text-white px-2 py-1 rounded text-xs">FOR RENT</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="md:w-2/3 p-6">
+                    <div class="flex justify-between items-start mb-2">
+                      <h4 class="text-xl font-bold text-gray-800">Spacious 2BHK with Garden</h4>
+                      <div class="text-right">
+                        <p class="text-2xl font-bold text-purple-600">₹35,000/month</p>
+                        <p class="text-sm text-gray-500">₹35/sq ft</p>
+                      </div>
+                    </div>
+                    
+                    <div class="flex items-center text-gray-600 mb-3">
+                      <i class="fas fa-map-marker-alt mr-2"></i>
+                      <span>Koramangala, Bangalore, Karnataka</span>
+                    </div>
+                    
+                    <div class="flex items-center space-x-6 text-sm text-gray-600 mb-4">
+                      <span><i class="fas fa-bed mr-1"></i> 2 Beds</span>
+                      <span><i class="fas fa-bath mr-1"></i> 2 Baths</span>
+                      <span><i class="fas fa-ruler-combined mr-1"></i> 1000 sq ft</span>
+                      <span><i class="fas fa-calendar mr-1"></i> 1 week ago</span>
+                    </div>
+                    
+                    <p class="text-gray-700 text-sm mb-4">Well-maintained apartment with private garden, parking, and all modern amenities...</p>
+                    
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-2">
+                          <i class="fas fa-user text-gray-600 text-sm"></i>
+                        </div>
+                        <div>
+                          <p class="text-sm font-medium text-gray-800">Raj Kumar</p>
+                          <p class="text-xs text-gray-500">Owner</p>
+                        </div>
+                      </div>
+                      <div class="flex space-x-2">
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700 transition">
+                          View Details
+                        </button>
+                        <button class="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700 transition">
+                          <i class="fas fa-phone mr-1"></i> Call
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Property Card 3 -->
+              <div class="property-card bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                <div class="md:flex">
+                  <div class="md:w-1/3">
+                    <div class="relative">
+                      <img src="https://images.unsplash.com/photo-1605146769289-440113cc3d00" alt="Property" class="w-full h-48 md:h-full object-cover">
+                      <div class="absolute top-2 left-2">
+                        <span class="bg-green-600 text-white px-2 py-1 rounded text-xs font-semibold">VERIFIED</span>
+                      </div>
+                      <div class="absolute top-2 right-2">
+                        <button class="bg-white bg-opacity-80 p-2 rounded-full hover:bg-opacity-100 transition">
+                          <i class="fas fa-heart text-gray-600"></i>
+                        </button>
+                      </div>
+                      <div class="absolute bottom-2 left-2">
+                        <span class="bg-blue-600 text-white px-2 py-1 rounded text-xs">FOR SALE</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="md:w-2/3 p-6">
+                    <div class="flex justify-between items-start mb-2">
+                      <h4 class="text-xl font-bold text-gray-800">Modern Villa with Pool</h4>
+                      <div class="text-right">
+                        <p class="text-2xl font-bold text-blue-600">₹1,20,00,000</p>
+                        <p class="text-sm text-gray-500">₹4,000/sq ft</p>
+                      </div>
+                    </div>
+                    
+                    <div class="flex items-center text-gray-600 mb-3">
+                      <i class="fas fa-map-marker-alt mr-2"></i>
+                      <span>Whitefield, Bangalore, Karnataka</span>
+                    </div>
+                    
+                    <div class="flex items-center space-x-6 text-sm text-gray-600 mb-4">
+                      <span><i class="fas fa-bed mr-1"></i> 4 Beds</span>
+                      <span><i class="fas fa-bath mr-1"></i> 3 Baths</span>
+                      <span><i class="fas fa-ruler-combined mr-1"></i> 3000 sq ft</span>
+                      <span><i class="fas fa-calendar mr-1"></i> 3 days ago</span>
+                    </div>
+                    
+                    <p class="text-gray-700 text-sm mb-4">Stunning villa with private swimming pool, landscaped garden, and premium finishes...</p>
+                    
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1519085360753-afccb6ee7713" alt="Agent" class="w-8 h-8 rounded-full mr-2">
+                        <div>
+                          <p class="text-sm font-medium text-gray-800">Arjun Patel</p>
+                          <p class="text-xs text-gray-500">Senior Agent</p>
+                        </div>
+                      </div>
+                      <div class="flex space-x-2">
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700 transition">
+                          View Details
+                        </button>
+                        <button class="bg-green-600 text-white px-4 py-2 rounded text-sm hover:bg-green-700 transition">
+                          <i class="fas fa-phone mr-1"></i> Call
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-8">
+              <button class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition duration-200">
+                <i class="fas fa-plus mr-2"></i>Load More Properties
+              </button>
             </div>
           </div>
         </div>
-        <div>
-          <h3 class="text-xl font-bold mb-4">Map View</h3>
-          <div class="bg-gray-200 h-96 rounded">
-            <!-- Placeholder for Mapbox integration -->
-            <p class="text-center pt-40 text-gray-600">Mapbox GL JS map placeholder</p>
+
+        <!-- Map Sidebar -->
+        <div class="lg:w-1/3">
+          <div class="bg-white rounded-lg shadow-md overflow-hidden sticky top-4">
+            <div class="p-4 bg-blue-600 text-white">
+              <h3 class="text-lg font-semibold">Map View</h3>
+            </div>
+            <div class="h-96 bg-gray-200 relative">
+              <!-- Placeholder for map -->
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center text-gray-600">
+                  <i class="fas fa-map text-4xl mb-2"></i>
+                  <p>Interactive Map</p>
+                  <p class="text-sm">Properties will be shown here</p>
+                </div>
+              </div>
+            </div>
+            <div class="p-4">
+              <button class="w-full bg-gray-100 text-gray-700 py-2 rounded hover:bg-gray-200 transition">
+                <i class="fas fa-expand-arrows-alt mr-2"></i>View Full Map
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="bg-gray-800 text-white py-4">
-    <div class="container mx-auto text-center">
+  <footer class="bg-gray-800 text-white py-8 mt-12">
+    <div class="container mx-auto px-4 text-center">
       <p>© 2025 PropertyConnect. All rights reserved.</p>
     </div>
   </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/api.js"></script>
+  <script>
+    // Advanced filters toggle
+    document.getElementById('advancedToggle').addEventListener('click', function() {
+      const filters = document.getElementById('advancedFilters');
+      const icon = this.querySelector('.fa-chevron-down');
+      
+      filters.classList.toggle('hidden');
+      icon.classList.toggle('rotate-180');
+    });
+
+    // View toggle
+    document.getElementById('gridView').addEventListener('click', function() {
+      this.classList.add('bg-blue-600', 'text-white');
+      this.classList.remove('bg-gray-200', 'text-gray-600');
+      document.getElementById('listView').classList.add('bg-gray-200', 'text-gray-600');
+      document.getElementById('listView').classList.remove('bg-blue-600', 'text-white');
+    });
+
+    document.getElementById('listView').addEventListener('click', function() {
+      this.classList.add('bg-blue-600', 'text-white');
+      this.classList.remove('bg-gray-200', 'text-gray-600');
+      document.getElementById('gridView').classList.add('bg-gray-200', 'text-gray-600');
+      document.getElementById('gridView').classList.remove('bg-blue-600', 'text-white');
+    });
+
+    // Search form submission
+    document.getElementById('searchForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      performSearch();
+    });
+
+    function performSearch() {
+      // Show loading state
+      document.getElementById('loadingState').classList.remove('hidden');
+      document.getElementById('sampleResults').classList.add('hidden');
+      document.getElementById('noResultsState').classList.add('hidden');
+
+      // Simulate search
+      setTimeout(() => {
+        document.getElementById('loadingState').classList.add('hidden');
+        document.getElementById('sampleResults').classList.remove('hidden');
+        document.getElementById('resultsCount').textContent = 'Found 3 properties';
+      }, 1500);
+    }
+
+    function clearFilters() {
+      document.getElementById('searchForm').reset();
+      performSearch();
+    }
+
+    function checkAuthAndRedirect() {
+      const token = localStorage.getItem('token');
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      
+      if (!token) {
+        alert('Please login to list your property.');
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      if (user.role === 'agent') {
+        window.location.href = 'agent-dashboard.html';
+      } else {
+        window.location.href = 'user-dashboard.html';
+      }
+    }
+
+    // Initialize search on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      performSearch();
+    });
+  </script>
 </body>
 </html> 

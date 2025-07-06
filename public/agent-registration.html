@@ -604,6 +604,19 @@
         // Show success message
         document.querySelector('.max-w-4xl').classList.add('hidden');
         document.getElementById('successMessage').classList.remove('hidden');
+        
+        // Simulate saving user data and redirect after 3 seconds
+        setTimeout(() => {
+          // In real implementation, you would get user data from API response
+          const userData = {
+            name: registrationData.name,
+            email: registrationData.email,
+            role: 'agent'
+          };
+          localStorage.setItem('user', JSON.stringify(userData));
+          localStorage.setItem('token', 'sample-jwt-token'); // Replace with real token
+          window.location.href = 'agent-dashboard.html';
+        }, 3000);
 
         // In a real implementation, you would:
         // 1. Submit the registration data to the backend

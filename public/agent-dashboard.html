@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PropertyConnect - Agent Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <!-- Header -->
+  <header class="bg-blue-600 text-white py-4 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center px-4">
+      <h1 class="text-2xl font-bold">PropertyConnect - Agent Dashboard</h1>
+      <div class="flex items-center space-x-4">
+        <span class="text-sm">Welcome, <span id="agentName">Agent</span></span>
+        <button onclick="logout()" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-sm">
+          <i class="fas fa-sign-out-alt mr-2"></i>Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container mx-auto px-4 py-8">
+    <!-- Dashboard Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div class="bg-white p-6 rounded-lg shadow">
+        <div class="flex items-center">
+          <div class="p-3 bg-blue-100 rounded-full">
+            <i class="fas fa-home text-blue-600 text-xl"></i>
+          </div>
+          <div class="ml-4">
+            <p class="text-sm text-gray-600">Total Listings</p>
+            <p class="text-2xl font-bold" id="totalListings">0</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bg-white p-6 rounded-lg shadow">
+        <div class="flex items-center">
+          <div class="p-3 bg-green-100 rounded-full">
+            <i class="fas fa-check-circle text-green-600 text-xl"></i>
+          </div>
+          <div class="ml-4">
+            <p class="text-sm text-gray-600">Published</p>
+            <p class="text-2xl font-bold text-green-600" id="publishedListings">0</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bg-white p-6 rounded-lg shadow">
+        <div class="flex items-center">
+          <div class="p-3 bg-yellow-100 rounded-full">
+            <i class="fas fa-clock text-yellow-600 text-xl"></i>
+          </div>
+          <div class="ml-4">
+            <p class="text-sm text-gray-600">Pending</p>
+            <p class="text-2xl font-bold text-yellow-600" id="pendingListings">0</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="bg-white p-6 rounded-lg shadow">
+        <div class="flex items-center">
+          <div class="p-3 bg-purple-100 rounded-full">
+            <i class="fas fa-eye text-purple-600 text-xl"></i>
+          </div>
+          <div class="ml-4">
+            <p class="text-sm text-gray-600">Total Views</p>
+            <p class="text-2xl font-bold text-purple-600" id="totalViews">0</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-wrap gap-4 mb-8">
+      <button onclick="showListPropertyForm()" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-200">
+        <i class="fas fa-plus mr-2"></i>List New Property
+      </button>
+      <button onclick="showMyListings()" class="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition duration-200">
+        <i class="fas fa-list mr-2"></i>My Listings
+      </button>
+      <button onclick="showProfile()" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-200">
+        <i class="fas fa-user mr-2"></i>My Profile
+      </button>
+    </div>
+
+    <!-- Content Sections -->
+    <div id="contentArea">
+      <!-- Welcome Section -->
+      <div id="welcomeSection" class="bg-white rounded-lg shadow p-8 text-center">
+        <i class="fas fa-home text-6xl text-blue-600 mb-4"></i>
+        <h2 class="text-3xl font-bold text-gray-800 mb-4">Welcome to Your Agent Dashboard</h2>
+        <p class="text-gray-600 mb-8">Manage your property listings, track performance, and grow your real estate business.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          <div class="p-4 border rounded-lg">
+            <i class="fas fa-plus-circle text-3xl text-blue-600 mb-2"></i>
+            <h3 class="font-semibold">List Properties</h3>
+            <p class="text-sm text-gray-600">Add new property listings with detailed information and photos</p>
+          </div>
+          <div class="p-4 border rounded-lg">
+            <i class="fas fa-chart-line text-3xl text-green-600 mb-2"></i>
+            <h3 class="font-semibold">Track Performance</h3>
+            <p class="text-sm text-gray-600">Monitor views, inquiries, and engagement on your listings</p>
+          </div>
+          <div class="p-4 border rounded-lg">
+            <i class="fas fa-users text-3xl text-purple-600 mb-2"></i>
+            <h3 class="font-semibold">Manage Clients</h3>
+            <p class="text-sm text-gray-600">Connect with potential buyers and manage leads</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Property Listing Form -->
+      <div id="listPropertySection" class="hidden">
+        <div class="bg-white rounded-lg shadow p-8">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">List New Property</h2>
+          
+          <form id="agentPropertyForm" class="space-y-6">
+            <!-- Property Basic Info -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Property Title *</label>
+                <input type="text" name="title" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., Beautiful 3BHK Apartment">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Property Type *</label>
+                <select name="type" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                  <option value="">Select Type</option>
+                  <option value="apartment">Apartment</option>
+                  <option value="house">House</option>
+                  <option value="villa">Villa</option>
+                  <option value="plot">Plot/Land</option>
+                  <option value="commercial">Commercial</option>
+                  <option value="office">Office Space</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Price (₹) *</label>
+                <input type="number" name="price" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="5000000">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Bedrooms</label>
+                <select name="bedrooms" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                  <option value="">Select</option>
+                  <option value="1">1 BHK</option>
+                  <option value="2">2 BHK</option>
+                  <option value="3">3 BHK</option>
+                  <option value="4">4 BHK</option>
+                  <option value="5">5+ BHK</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Bathrooms</label>
+                <select name="bathrooms" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                  <option value="">Select</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4+</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Area (sq ft) *</label>
+                <input type="number" name="area" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="1200">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Listing Type *</label>
+                <select name="listingType" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                  <option value="">Select</option>
+                  <option value="sale">For Sale</option>
+                  <option value="rent">For Rent</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Location -->
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">Location Details</h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Street Address *</label>
+                  <input type="text" name="street" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Street address">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">City *</label>
+                  <input type="text" name="city" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="City">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">State *</label>
+                  <input type="text" name="state" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="State">
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">PIN Code *</label>
+                  <input type="text" name="zipCode" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="400001">
+                </div>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Property Description *</label>
+              <textarea name="description" required rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500" placeholder="Describe the property features, amenities, nearby facilities..."></textarea>
+            </div>
+
+            <!-- Amenities -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Amenities</label>
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <label class="flex items-center"><input type="checkbox" name="amenities" value="parking" class="mr-2"> Parking</label>
+                <label class="flex items-center"><input type="checkbox" name="amenities" value="gym" class="mr-2"> Gym</label>
+                <label class="flex items-center"><input type="checkbox" name="amenities" value="pool" class="mr-2"> Swimming Pool</label>
+                <label class="flex items-center"><input type="checkbox" name="amenities" value="security" class="mr-2"> 24/7 Security</label>
+                <label class="flex items-center"><input type="checkbox" name="amenities" value="garden" class="mr-2"> Garden</label>
+                <label class="flex items-center"><input type="checkbox" name="amenities" value="elevator" class="mr-2"> Elevator</label>
+                <label class="flex items-center"><input type="checkbox" name="amenities" value="balcony" class="mr-2"> Balcony</label>
+                <label class="flex items-center"><input type="checkbox" name="amenities" value="furnished" class="mr-2"> Furnished</label>
+              </div>
+            </div>
+
+            <!-- Image Upload -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Property Images *</label>
+              <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                <input type="file" id="propertyImages" multiple accept="image/*" class="hidden">
+                <label for="propertyImages" class="cursor-pointer">
+                  <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                  <p class="text-gray-600">Click to upload property images</p>
+                  <p class="text-sm text-gray-500">JPG, PNG (Max 10 images, 5MB each)</p>
+                </label>
+              </div>
+              <div id="imagePreviewContainer" class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4 hidden"></div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="flex justify-end space-x-4">
+              <button type="button" onclick="showWelcome()" class="bg-gray-300 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-400">Cancel</button>
+              <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700">
+                <span id="submitBtnText">Submit for Approval</span>
+                <i id="submitSpinner" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- My Listings Section -->
+      <div id="myListingsSection" class="hidden">
+        <div class="bg-white rounded-lg shadow p-8">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">My Property Listings</h2>
+          
+          <!-- Filter Options -->
+          <div class="flex flex-wrap gap-4 mb-6">
+            <select id="statusFilter" class="px-4 py-2 border border-gray-300 rounded-lg">
+              <option value="">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="published">Published</option>
+              <option value="rejected">Rejected</option>
+            </select>
+            <select id="typeFilter" class="px-4 py-2 border border-gray-300 rounded-lg">
+              <option value="">All Types</option>
+              <option value="apartment">Apartment</option>
+              <option value="house">House</option>
+              <option value="villa">Villa</option>
+              <option value="plot">Plot/Land</option>
+            </select>
+          </div>
+
+          <!-- Listings Grid -->
+          <div id="listingsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Listings will be populated here -->
+            <div class="text-center text-gray-500 col-span-full py-8">
+              <i class="fas fa-home text-4xl mb-4"></i>
+              <p>No listings found. Start by adding your first property!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/api.js"></script>
+  <script>
+    // Check if user is logged in and is an agent
+    document.addEventListener('DOMContentLoaded', function() {
+      const token = localStorage.getItem('token');
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      
+      if (!token || user.role !== 'agent') {
+        alert('Access denied. Please login as an agent.');
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      document.getElementById('agentName').textContent = user.name || 'Agent';
+      loadDashboardData();
+    });
+
+    // Navigation functions
+    function showWelcome() {
+      hideAllSections();
+      document.getElementById('welcomeSection').classList.remove('hidden');
+    }
+
+    function showListPropertyForm() {
+      hideAllSections();
+      document.getElementById('listPropertySection').classList.remove('hidden');
+    }
+
+    function showMyListings() {
+      hideAllSections();
+      document.getElementById('myListingsSection').classList.remove('hidden');
+      loadMyListings();
+    }
+
+    function showProfile() {
+      // Implement profile management
+      alert('Profile management coming soon!');
+    }
+
+    function hideAllSections() {
+      document.querySelectorAll('#contentArea > div').forEach(section => {
+        section.classList.add('hidden');
+      });
+    }
+
+    // Image upload preview
+    document.getElementById('propertyImages').addEventListener('change', function(e) {
+      const files = Array.from(e.target.files);
+      const container = document.getElementById('imagePreviewContainer');
+      
+      if (files.length > 0) {
+        container.innerHTML = '';
+        container.classList.remove('hidden');
+        
+        files.slice(0, 10).forEach((file, index) => {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const div = document.createElement('div');
+            div.className = 'relative';
+            div.innerHTML = `
+              <img src="${e.target.result}" class="w-full h-24 object-cover rounded">
+              <button type="button" onclick="removeImage(${index})" class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 text-xs">×</button>
+            `;
+            container.appendChild(div);
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+    });
+
+    function removeImage(index) {
+      // Implement image removal logic
+      const container = document.getElementById('imagePreviewContainer');
+      const images = container.children;
+      if (images[index]) {
+        images[index].remove();
+      }
+    }
+
+    // Form submission
+    document.getElementById('agentPropertyForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.querySelector('button[type="submit"]');
+      const submitText = document.getElementById('submitBtnText');
+      const spinner = document.getElementById('submitSpinner');
+      
+      try {
+        submitBtn.disabled = true;
+        submitText.textContent = 'Submitting...';
+        spinner.classList.remove('hidden');
+
+        const formData = new FormData(this);
+        const amenities = Array.from(document.querySelectorAll('input[name="amenities"]:checked')).map(cb => cb.value);
+        
+        // Create property object
+        const propertyData = {
+          title: formData.get('title'),
+          description: formData.get('description'),
+          price: parseFloat(formData.get('price')),
+          location: {
+            street: formData.get('street'),
+            city: formData.get('city'),
+            state: formData.get('state'),
+            zipCode: formData.get('zipCode'),
+            country: 'India'
+          },
+          specifications: {
+            bedrooms: parseInt(formData.get('bedrooms')) || 0,
+            bathrooms: parseInt(formData.get('bathrooms')) || 0,
+            area: parseFloat(formData.get('area')),
+            type: formData.get('type')
+          },
+          amenities: amenities,
+          listingType: formData.get('listingType'),
+          status: 'pending'
+        };
+
+        console.log('Property data:', propertyData);
+        
+        // For now, simulate success
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        alert('Property submitted successfully! It will be reviewed and published within 24 hours.');
+        this.reset();
+        document.getElementById('imagePreviewContainer').classList.add('hidden');
+        showWelcome();
+        
+        // In real implementation:
+        // await API.properties.create(propertyData);
+        
+      } catch (error) {
+        alert('Error submitting property: ' + error.message);
+      } finally {
+        submitBtn.disabled = false;
+        submitText.textContent = 'Submit for Approval';
+        spinner.classList.add('hidden');
+      }
+    });
+
+    // Load dashboard data
+    async function loadDashboardData() {
+      try {
+        // Simulate API calls
+        document.getElementById('totalListings').textContent = '5';
+        document.getElementById('publishedListings').textContent = '3';
+        document.getElementById('pendingListings').textContent = '2';
+        document.getElementById('totalViews').textContent = '156';
+      } catch (error) {
+        console.error('Error loading dashboard data:', error);
+      }
+    }
+
+    // Load my listings
+    async function loadMyListings() {
+      try {
+        // Simulate loading listings
+        const grid = document.getElementById('listingsGrid');
+        grid.innerHTML = `
+          <div class="border rounded-lg overflow-hidden shadow-sm">
+            <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h3 class="font-semibold text-lg">3BHK Apartment</h3>
+              <p class="text-gray-600 text-sm">Mumbai, Maharashtra</p>
+              <p class="text-blue-600 font-bold">₹50,00,000</p>
+              <div class="mt-2">
+                <span class="inline-block bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Pending</span>
+              </div>
+            </div>
+          </div>
+        `;
+      } catch (error) {
+        console.error('Error loading listings:', error);
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = 'login.html';
+    }
+
+    // Initialize dashboard
+    showWelcome();
+  </script>
+</body>
+</html>
