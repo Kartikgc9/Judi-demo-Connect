@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PropertyConnect - List Property</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <!-- Header -->
+  <header class="bg-blue-600 text-white py-4 sticky top-0 z-40">
+    <div class="container mx-auto flex justify-between items-center px-4">
+      <h1 class="text-2xl font-bold">PropertyConnect</h1>
+      <nav class="flex items-center space-x-4">
+        <a href="index.html" class="hover:underline">Home</a>
+        <a href="agent-dashboard.html" class="hover:underline">Dashboard</a>
+        <button id="logoutBtn" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded">
+          Logout
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+      <!-- Page Header -->
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">List Your Property</h1>
+        <p class="text-gray-600">Fill in the details below to create a new property listing</p>
+      </div>
+
+      <!-- Property Listing Form -->
+      <form id="propertyForm" class="bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Basic Information -->
+        <div class="p-6 border-b">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Basic Information</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="title" class="block text-sm font-medium text-gray-700 mb-2">
+                Property Title *
+              </label>
+              <input 
+                type="text" 
+                id="title" 
+                name="title" 
+                required 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="e.g., Modern 3BHK Apartment in Downtown"
+              >
+            </div>
+
+            <div>
+              <label for="type" class="block text-sm font-medium text-gray-700 mb-2">
+                Property Type *
+              </label>
+              <select 
+                id="type" 
+                name="type" 
+                required 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="">Select Property Type</option>
+                <option value="apartment">Apartment</option>
+                <option value="house">House</option>
+                <option value="condo">Condo</option>
+                <option value="townhouse">Townhouse</option>
+                <option value="land">Land</option>
+                <option value="commercial">Commercial</option>
+                <option value="office">Office</option>
+                <option value="warehouse">Warehouse</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="listingType" class="block text-sm font-medium text-gray-700 mb-2">
+                Listing Type *
+              </label>
+              <select 
+                id="listingType" 
+                name="listingType" 
+                required 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="">Select Listing Type</option>
+                <option value="sale">For Sale</option>
+                <option value="rent">For Rent</option>
+                <option value="lease">For Lease</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="price" class="block text-sm font-medium text-gray-700 mb-2">
+                Price (INR) *
+              </label>
+              <div class="flex">
+                <input 
+                  type="number" 
+                  id="price" 
+                  name="price" 
+                  required 
+                  min="0"
+                  class="flex-1 px-4 py-3 border border-gray-300 rounded-l-lg focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter price"
+                >
+                <select 
+                  id="priceType" 
+                  name="priceType" 
+                  class="px-3 py-3 border border-l-0 border-gray-300 rounded-r-lg focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="total">Total</option>
+                  <option value="per_month">Per Month</option>
+                  <option value="per_year">Per Year</option>
+                  <option value="per_sqft">Per Sq Ft</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <label for="description" class="block text-sm font-medium text-gray-700 mb-2">
+              Property Description *
+            </label>
+            <textarea 
+              id="description" 
+              name="description" 
+              required 
+              rows="4"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Describe your property in detail..."
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Address Information -->
+        <div class="p-6 border-b">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Address & Location</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="md:col-span-2">
+              <label for="street" class="block text-sm font-medium text-gray-700 mb-2">
+                Street Address *
+              </label>
+              <input 
+                type="text" 
+                id="street" 
+                name="street" 
+                required 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter street address"
+              >
+            </div>
+
+            <div>
+              <label for="city" class="block text-sm font-medium text-gray-700 mb-2">
+                City *
+              </label>
+              <input 
+                type="text" 
+                id="city" 
+                name="city" 
+                required 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter city"
+              >
+            </div>
+
+            <div>
+              <label for="state" class="block text-sm font-medium text-gray-700 mb-2">
+                State *
+              </label>
+              <input 
+                type="text" 
+                id="state" 
+                name="state" 
+                required 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter state"
+              >
+            </div>
+
+            <div>
+              <label for="zipCode" class="block text-sm font-medium text-gray-700 mb-2">
+                ZIP Code *
+              </label>
+              <input 
+                type="text" 
+                id="zipCode" 
+                name="zipCode" 
+                required 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter ZIP code"
+              >
+            </div>
+
+            <div>
+              <label for="country" class="block text-sm font-medium text-gray-700 mb-2">
+                Country
+              </label>
+              <input 
+                type="text" 
+                id="country" 
+                name="country" 
+                value="India"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Property Specifications -->
+        <div class="p-6 border-b">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Property Specifications</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label for="bedrooms" class="block text-sm font-medium text-gray-700 mb-2">
+                Bedrooms
+              </label>
+              <input 
+                type="number" 
+                id="bedrooms" 
+                name="bedrooms" 
+                min="0"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="0"
+              >
+            </div>
+
+            <div>
+              <label for="bathrooms" class="block text-sm font-medium text-gray-700 mb-2">
+                Bathrooms
+              </label>
+              <input 
+                type="number" 
+                id="bathrooms" 
+                name="bathrooms" 
+                min="0"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="0"
+              >
+            </div>
+
+            <div>
+              <label for="parking" class="block text-sm font-medium text-gray-700 mb-2">
+                Parking Spaces
+              </label>
+              <input 
+                type="number" 
+                id="parking" 
+                name="parking" 
+                min="0"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="0"
+              >
+            </div>
+
+            <div>
+              <label for="area" class="block text-sm font-medium text-gray-700 mb-2">
+                Area *
+              </label>
+              <div class="flex">
+                <input 
+                  type="number" 
+                  id="area" 
+                  name="area" 
+                  required 
+                  min="1"
+                  class="flex-1 px-4 py-3 border border-gray-300 rounded-l-lg focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter area"
+                >
+                <select 
+                  id="areaUnit" 
+                  name="areaUnit" 
+                  class="px-3 py-3 border border-l-0 border-gray-300 rounded-r-lg focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="sqft">Sq Ft</option>
+                  <option value="sqm">Sq M</option>
+                  <option value="acres">Acres</option>
+                  <option value="hectares">Hectares</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label for="floors" class="block text-sm font-medium text-gray-700 mb-2">
+                Floors
+              </label>
+              <input 
+                type="number" 
+                id="floors" 
+                name="floors" 
+                min="0"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="0"
+              >
+            </div>
+
+            <div>
+              <label for="yearBuilt" class="block text-sm font-medium text-gray-700 mb-2">
+                Year Built
+              </label>
+              <input 
+                type="number" 
+                id="yearBuilt" 
+                name="yearBuilt" 
+                min="1800"
+                max="2030"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="e.g., 2020"
+              >
+            </div>
+
+            <div>
+              <label for="furnished" class="block text-sm font-medium text-gray-700 mb-2">
+                Furnished Status
+              </label>
+              <select 
+                id="furnished" 
+                name="furnished" 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="unfurnished">Unfurnished</option>
+                <option value="semi-furnished">Semi-Furnished</option>
+                <option value="fully-furnished">Fully-Furnished</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Amenities -->
+        <div class="p-6 border-b">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Amenities</h2>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <label class="flex items-center">
+              <input type="checkbox" name="amenities" value="swimming_pool" class="mr-2">
+              <span class="text-sm">Swimming Pool</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="amenities" value="gym" class="mr-2">
+              <span class="text-sm">Gym</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="amenities" value="garden" class="mr-2">
+              <span class="text-sm">Garden</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="amenities" value="balcony" class="mr-2">
+              <span class="text-sm">Balcony</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="amenities" value="elevator" class="mr-2">
+              <span class="text-sm">Elevator</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="amenities" value="security" class="mr-2">
+              <span class="text-sm">Security</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="amenities" value="power_backup" class="mr-2">
+              <span class="text-sm">Power Backup</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="amenities" value="water_supply" class="mr-2">
+              <span class="text-sm">Water Supply</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="amenities" value="internet" class="mr-2">
+              <span class="text-sm">Internet</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="amenities" value="ac" class="mr-2">
+              <span class="text-sm">Air Conditioning</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="amenities" value="parking" class="mr-2">
+              <span class="text-sm">Parking</span>
+            </label>
+            <label class="flex items-center">
+              <input type="checkbox" name="amenities" value="playground" class="mr-2">
+              <span class="text-sm">Playground</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="p-6 border-b">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Contact Information</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label for="contactPhone" class="block text-sm font-medium text-gray-700 mb-2">
+                Contact Phone *
+              </label>
+              <input 
+                type="tel" 
+                id="contactPhone" 
+                name="contactPhone" 
+                required 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="+91 9876543210"
+              >
+            </div>
+
+            <div>
+              <label for="contactEmail" class="block text-sm font-medium text-gray-700 mb-2">
+                Contact Email
+              </label>
+              <input 
+                type="email" 
+                id="contactEmail" 
+                name="contactEmail" 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="contact@example.com"
+              >
+            </div>
+
+            <div>
+              <label for="whatsapp" class="block text-sm font-medium text-gray-700 mb-2">
+                WhatsApp Number
+              </label>
+              <input 
+                type="tel" 
+                id="whatsapp" 
+                name="whatsapp" 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="+91 9876543210"
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Property Images -->
+        <div class="p-6 border-b">
+          <h2 class="text-xl font-semibold text-gray-900 mb-4">Property Images</h2>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Upload Images (Maximum 10 images, 10MB each)
+              </label>
+              <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                <input 
+                  type="file" 
+                  id="propertyImages" 
+                  name="images" 
+                  multiple 
+                  accept="image/*"
+                  class="hidden"
+                >
+                <label for="propertyImages" class="cursor-pointer">
+                  <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                  <p class="text-lg text-gray-600">Click to upload images</p>
+                  <p class="text-sm text-gray-500">or drag and drop files here</p>
+                </label>
+              </div>
+            </div>
+
+            <!-- Image Preview -->
+            <div id="imagePreview" class="grid grid-cols-2 md:grid-cols-4 gap-4 hidden">
+              <!-- Images will be displayed here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Buttons -->
+        <div class="p-6 flex justify-between items-center">
+          <button 
+            type="button"
+            id="saveDraftBtn"
+            class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500"
+          >
+            Save as Draft
+          </button>
+
+          <button 
+            type="submit" 
+            id="submitBtn"
+            class="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span id="submitBtnText">Publish Property</span>
+            <i id="submitSpinner" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is authenticated and is an agent
+      if (!API.user.isAuthenticated()) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // Initialize the form
+      initializeForm();
+    });
+
+    function initializeForm() {
+      const form = document.getElementById('propertyForm');
+      const imageInput = document.getElementById('propertyImages');
+      const imagePreview = document.getElementById('imagePreview');
+      const submitBtn = document.getElementById('submitBtn');
+      const saveDraftBtn = document.getElementById('saveDraftBtn');
+      let selectedImages = [];
+
+      // Handle image selection
+      imageInput.addEventListener('change', function(e) {
+        const files = Array.from(e.target.files);
+        selectedImages = files.slice(0, 10); // Limit to 10 images
+        displayImagePreview();
+      });
+
+      // Display image preview
+      function displayImagePreview() {
+        if (selectedImages.length === 0) {
+          imagePreview.classList.add('hidden');
+          return;
+        }
+
+        imagePreview.classList.remove('hidden');
+        imagePreview.innerHTML = '';
+
+        selectedImages.forEach((file, index) => {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const imageContainer = document.createElement('div');
+            imageContainer.className = 'relative';
+            imageContainer.innerHTML = `
+              <img src="${e.target.result}" alt="Preview ${index + 1}" class="w-full h-32 object-cover rounded-lg">
+              <button type="button" onclick="removeImage(${index})" class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600">
+                <i class="fas fa-times"></i>
+              </button>
+              <div class="mt-2">
+                <input type="text" placeholder="Image caption (optional)" class="w-full text-xs px-2 py-1 border rounded" data-caption-index="${index}">
+              </div>
+            `;
+            imagePreview.appendChild(imageContainer);
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // Remove image function
+      window.removeImage = function(index) {
+        selectedImages.splice(index, 1);
+        displayImagePreview();
+      };
+
+      // Handle form submission
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        await submitProperty('active');
+      });
+
+      // Handle save as draft
+      saveDraftBtn.addEventListener('click', async function() {
+        await submitProperty('draft');
+      });
+
+      // Submit property function
+      async function submitProperty(status) {
+        try {
+          // Show loading state
+          const isPublishing = status === 'active';
+          const btn = isPublishing ? submitBtn : saveDraftBtn;
+          const btnText = document.getElementById('submitBtnText');
+          const spinner = document.getElementById('submitSpinner');
+
+          btn.disabled = true;
+          if (isPublishing) {
+            btnText.textContent = 'Publishing...';
+            spinner.classList.remove('hidden');
+          } else {
+            btn.textContent = 'Saving...';
+          }
+
+          // Collect form data
+          const formData = new FormData(form);
+          const amenities = Array.from(document.querySelectorAll('input[name="amenities"]:checked'))
+            .map(cb => cb.value);
+
+          const propertyData = {
+            title: formData.get('title'),
+            description: formData.get('description'),
+            type: formData.get('type'),
+            listingType: formData.get('listingType'),
+            price: {
+              amount: parseFloat(formData.get('price')),
+              currency: 'INR',
+              priceType: formData.get('priceType')
+            },
+            address: {
+              street: formData.get('street'),
+              city: formData.get('city'),
+              state: formData.get('state'),
+              zipCode: formData.get('zipCode'),
+              country: formData.get('country') || 'India'
+            },
+            specifications: {
+              bedrooms: parseInt(formData.get('bedrooms')) || 0,
+              bathrooms: parseInt(formData.get('bathrooms')) || 0,
+              parking: parseInt(formData.get('parking')) || 0,
+              area: {
+                value: parseFloat(formData.get('area')),
+                unit: formData.get('areaUnit')
+              },
+              floors: parseInt(formData.get('floors')) || 0,
+              yearBuilt: parseInt(formData.get('yearBuilt')) || null,
+              furnished: formData.get('furnished')
+            },
+            amenities: amenities,
+            contactInfo: {
+              phone: formData.get('contactPhone'),
+              email: formData.get('contactEmail'),
+              whatsapp: formData.get('whatsapp')
+            },
+            status: status,
+            images: [] // Will be added after upload
+          };
+
+          // Create property
+          const response = await API.properties.createProperty(propertyData);
+          const propertyId = response.property._id;
+
+          // Upload images if any
+          if (selectedImages.length > 0) {
+            const imageFormData = new FormData();
+            selectedImages.forEach((file, index) => {
+              imageFormData.append('images', file);
+            });
+
+            // Add captions
+            const captions = Array.from(document.querySelectorAll('[data-caption-index]'))
+              .map(input => input.value);
+            captions.forEach((caption, index) => {
+              imageFormData.append(`captions[${index}]`, caption);
+            });
+
+            await API.upload.uploadPropertyImages(propertyId, imageFormData);
+          }
+
+          API.showNotification(
+            isPublishing ? 'Property published successfully!' : 'Property saved as draft!',
+            'success'
+          );
+
+          // Redirect to property details or dashboard
+          setTimeout(() => {
+            window.location.href = `property-details.html?id=${propertyId}`;
+          }, 1500);
+
+        } catch (error) {
+          API.handleError(error);
+        } finally {
+          // Reset button states
+          submitBtn.disabled = false;
+          saveDraftBtn.disabled = false;
+          document.getElementById('submitBtnText').textContent = 'Publish Property';
+          document.getElementById('submitSpinner').classList.add('hidden');
+          saveDraftBtn.textContent = 'Save as Draft';
+        }
+      }
+
+      // Logout functionality
+      document.getElementById('logoutBtn').addEventListener('click', async function() {
+        try {
+          await API.auth.logout();
+          localStorage.removeItem('token');
+          window.location.href = 'index.html';
+        } catch (error) {
+          API.handleError(error);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

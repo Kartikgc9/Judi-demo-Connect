@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PropertyConnect - Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+  <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+      <!-- Header -->
+      <div class="text-center">
+        <h1 class="text-3xl font-bold text-blue-600 mb-2">PropertyConnect</h1>
+        <h2 class="text-2xl font-semibold text-gray-900">Welcome Back</h2>
+        <p class="mt-2 text-gray-600">Sign in to your account</p>
+      </div>
+
+      <!-- Login Form -->
+      <form id="loginForm" class="bg-white rounded-xl shadow-lg p-8 space-y-6">
+        <div class="space-y-4">
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+              Email Address
+            </label>
+            <div class="relative">
+              <i class="fas fa-envelope absolute left-3 top-3 text-gray-400"></i>
+              <input 
+                id="email" 
+                name="email" 
+                type="email" 
+                required 
+                class="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter your email"
+              >
+            </div>
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
+            <div class="relative">
+              <i class="fas fa-lock absolute left-3 top-3 text-gray-400"></i>
+              <input 
+                id="password" 
+                name="password" 
+                type="password" 
+                required 
+                class="pl-10 w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Enter your password"
+              >
+              <button 
+                type="button" 
+                id="togglePassword"
+                class="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+              >
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <input 
+              id="remember" 
+              name="remember" 
+              type="checkbox" 
+              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            >
+            <label for="remember" class="ml-2 block text-sm text-gray-700">
+              Remember me
+            </label>
+          </div>
+          <a href="#" class="text-sm text-blue-600 hover:text-blue-500">
+            Forgot password?
+          </a>
+        </div>
+
+        <button 
+          type="submit" 
+          id="loginBtn"
+          class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span id="loginBtnText">Sign In</span>
+          <i id="loginSpinner" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+        </button>
+
+        <div class="text-center">
+          <p class="text-sm text-gray-600">
+            Don't have an account? 
+            <button 
+              type="button" 
+              id="showRegisterModal"
+              class="text-blue-600 hover:text-blue-500 font-medium"
+            >
+              Sign up here
+            </button>
+          </p>
+        </div>
+      </form>
+
+      <!-- Back to Home -->
+      <div class="text-center">
+        <a href="index.html" class="text-blue-600 hover:text-blue-500 font-medium">
+          <i class="fas fa-arrow-left mr-2"></i>Back to Home
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Registration Modal -->
+  <div id="registerModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+    <div class="min-h-screen flex items-center justify-center p-4">
+      <div class="bg-white rounded-xl shadow-xl max-w-md w-full max-h-screen overflow-y-auto">
+        <!-- Modal Header -->
+        <div class="p-6 border-b">
+          <div class="flex justify-between items-center">
+            <h3 class="text-xl font-semibold text-gray-900">Create Account</h3>
+            <button id="closeRegisterModal" class="text-gray-400 hover:text-gray-600">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Registration Form -->
+        <form id="registerForm" class="p-6 space-y-4">
+          <div>
+            <label for="regName" class="block text-sm font-medium text-gray-700 mb-1">
+              Full Name
+            </label>
+            <input 
+              id="regName" 
+              name="name" 
+              type="text" 
+              required 
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Enter your full name"
+            >
+          </div>
+
+          <div>
+            <label for="regEmail" class="block text-sm font-medium text-gray-700 mb-1">
+              Email Address
+            </label>
+            <input 
+              id="regEmail" 
+              name="email" 
+              type="email" 
+              required 
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Enter your email"
+            >
+          </div>
+
+          <div>
+            <label for="regPassword" class="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
+            <input 
+              id="regPassword" 
+              name="password" 
+              type="password" 
+              required 
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Enter your password"
+              minlength="6"
+            >
+            <p class="text-xs text-gray-500 mt-1">Password must be at least 6 characters</p>
+          </div>
+
+          <div>
+            <label for="regConfirmPassword" class="block text-sm font-medium text-gray-700 mb-1">
+              Confirm Password
+            </label>
+            <input 
+              id="regConfirmPassword" 
+              name="confirmPassword" 
+              type="password" 
+              required 
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Confirm your password"
+            >
+          </div>
+
+          <div>
+            <label for="regRole" class="block text-sm font-medium text-gray-700 mb-1">
+              Account Type
+            </label>
+            <select 
+              id="regRole" 
+              name="role" 
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="user">Property Buyer/Renter</option>
+              <option value="agent">Real Estate Agent</option>
+            </select>
+          </div>
+
+          <div class="flex items-center">
+            <input 
+              id="regTerms" 
+              name="terms" 
+              type="checkbox" 
+              required
+              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            >
+            <label for="regTerms" class="ml-2 block text-sm text-gray-700">
+              I agree to the <a href="#" class="text-blue-600 hover:text-blue-500">Terms of Service</a> 
+              and <a href="#" class="text-blue-600 hover:text-blue-500">Privacy Policy</a>
+            </label>
+          </div>
+
+          <button 
+            type="submit" 
+            id="registerBtn"
+            class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <span id="registerBtnText">Create Account</span>
+            <i id="registerSpinner" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/api.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Elements
+      const loginForm = document.getElementById('loginForm');
+      const registerForm = document.getElementById('registerForm');
+      const registerModal = document.getElementById('registerModal');
+      const showRegisterModal = document.getElementById('showRegisterModal');
+      const closeRegisterModal = document.getElementById('closeRegisterModal');
+      const togglePassword = document.getElementById('togglePassword');
+      const passwordInput = document.getElementById('password');
+
+      // Check if already logged in
+      if (API.user.isAuthenticated()) {
+        window.location.href = 'dashboard.html';
+      }
+
+      // Toggle password visibility
+      togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+      });
+
+      // Show register modal
+      showRegisterModal.addEventListener('click', function() {
+        registerModal.classList.remove('hidden');
+      });
+
+      // Close register modal
+      closeRegisterModal.addEventListener('click', function() {
+        registerModal.classList.add('hidden');
+      });
+
+      // Close modal on backdrop click
+      registerModal.addEventListener('click', function(e) {
+        if (e.target === registerModal) {
+          registerModal.classList.add('hidden');
+        }
+      });
+
+      // Login form submission
+      loginForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const loginBtn = document.getElementById('loginBtn');
+        const loginBtnText = document.getElementById('loginBtnText');
+        const loginSpinner = document.getElementById('loginSpinner');
+        
+        try {
+          // Show loading state
+          loginBtn.disabled = true;
+          loginBtnText.textContent = 'Signing In...';
+          loginSpinner.classList.remove('hidden');
+
+          const formData = new FormData(loginForm);
+          const credentials = {
+            email: formData.get('email'),
+            password: formData.get('password')
+          };
+
+          const response = await API.auth.login(credentials);
+          
+          // Store token
+          localStorage.setItem('token', response.token);
+          
+          API.showNotification('Login successful!', 'success');
+          
+          // Redirect based on user role
+          setTimeout(() => {
+            if (response.user.isAgent) {
+              window.location.href = 'agent-dashboard.html';
+            } else {
+              window.location.href = 'index.html';
+            }
+          }, 1000);
+
+        } catch (error) {
+          API.handleError(error);
+        } finally {
+          // Reset button state
+          loginBtn.disabled = false;
+          loginBtnText.textContent = 'Sign In';
+          loginSpinner.classList.add('hidden');
+        }
+      });
+
+      // Registration form submission
+      registerForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const registerBtn = document.getElementById('registerBtn');
+        const registerBtnText = document.getElementById('registerBtnText');
+        const registerSpinner = document.getElementById('registerSpinner');
+        
+        try {
+          const formData = new FormData(registerForm);
+          
+          // Validate password confirmation
+          const password = formData.get('password');
+          const confirmPassword = formData.get('confirmPassword');
+          
+          if (password !== confirmPassword) {
+            API.showNotification('Passwords do not match', 'error');
+            return;
+          }
+
+          // Show loading state
+          registerBtn.disabled = true;
+          registerBtnText.textContent = 'Creating Account...';
+          registerSpinner.classList.remove('hidden');
+
+          const userData = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            password: formData.get('password'),
+            role: formData.get('role')
+          };
+
+          const response = await API.auth.register(userData);
+          
+          // Store token
+          localStorage.setItem('token', response.token);
+          
+          API.showNotification('Account created successfully!', 'success');
+          
+          // Close modal and redirect
+          setTimeout(() => {
+            registerModal.classList.add('hidden');
+            if (response.user.isAgent) {
+              window.location.href = 'agent-setup.html';
+            } else {
+              window.location.href = 'index.html';
+            }
+          }, 1000);
+
+        } catch (error) {
+          API.handleError(error);
+        } finally {
+          // Reset button state
+          registerBtn.disabled = false;
+          registerBtnText.textContent = 'Create Account';
+          registerSpinner.classList.add('hidden');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
