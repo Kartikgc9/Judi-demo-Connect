@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PropertyConnect - Agent Registration</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+  <!-- Header -->
+  <header class="bg-blue-600 text-white py-4">
+    <div class="container mx-auto flex justify-between items-center px-4">
+      <h1 class="text-2xl font-bold">PropertyConnect</h1>
+      <nav class="flex items-center space-x-4">
+        <a href="index.html" class="px-4 hover:underline">Home</a>
+        <a href="agents.html" class="px-4 hover:underline">For Agents</a>
+        <a href="login.html" class="bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded">Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+      
+      <!-- Page Header -->
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Become a PropertyConnect Agent</h1>
+        <p class="text-gray-600">Join our network of professional real estate agents and grow your business</p>
+      </div>
+
+      <!-- Registration Steps Indicator -->
+      <div class="mb-8">
+        <div class="flex items-center justify-center space-x-4">
+          <div class="flex items-center">
+            <div id="step1-indicator" class="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-semibold">
+              1
+            </div>
+            <span class="ml-2 text-sm font-medium text-blue-600">Account Setup</span>
+          </div>
+          <div class="w-12 h-1 bg-gray-300" id="connector1"></div>
+          <div class="flex items-center">
+            <div id="step2-indicator" class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-semibold">
+              2
+            </div>
+            <span class="ml-2 text-sm font-medium text-gray-600">Professional Details</span>
+          </div>
+          <div class="w-12 h-1 bg-gray-300" id="connector2"></div>
+          <div class="flex items-center">
+            <div id="step3-indicator" class="w-8 h-8 bg-gray-300 text-gray-600 rounded-full flex items-center justify-center text-sm font-semibold">
+              3
+            </div>
+            <span class="ml-2 text-sm font-medium text-gray-600">Verification</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Registration Form -->
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        
+        <!-- Step 1: Account Setup -->
+        <div id="step1" class="registration-step">
+          <div class="p-8">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-6">Step 1: Create Your Account</h2>
+            
+            <form id="accountForm" class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label for="firstName" class="block text-sm font-medium text-gray-700 mb-2">
+                    First Name *
+                  </label>
+                  <input 
+                    type="text" 
+                    id="firstName" 
+                    name="firstName" 
+                    required 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Enter your first name"
+                  >
+                </div>
+                
+                <div>
+                  <label for="lastName" class="block text-sm font-medium text-gray-700 mb-2">
+                    Last Name *
+                  </label>
+                  <input 
+                    type="text" 
+                    id="lastName" 
+                    name="lastName" 
+                    required 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Enter your last name"
+                  >
+                </div>
+              </div>
+
+              <div>
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                  Email Address *
+                </label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email" 
+                  required 
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter your email address"
+                >
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                    Password *
+                  </label>
+                  <div class="relative">
+                    <input 
+                      type="password" 
+                      id="password" 
+                      name="password" 
+                      required 
+                      minlength="6"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Create a strong password"
+                    >
+                    <button 
+                      type="button" 
+                      id="togglePassword"
+                      class="absolute right-3 top-3 text-gray-400 hover:text-gray-600"
+                    >
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  </div>
+                  <p class="text-xs text-gray-500 mt-1">Password must be at least 6 characters</p>
+                </div>
+
+                <div>
+                  <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">
+                    Confirm Password *
+                  </label>
+                  <input 
+                    type="password" 
+                    id="confirmPassword" 
+                    name="confirmPassword" 
+                    required 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Confirm your password"
+                  >
+                </div>
+              </div>
+
+              <div>
+                <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">
+                  Phone Number *
+                </label>
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  name="phone" 
+                  required 
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="+91 9876543210"
+                >
+              </div>
+
+              <div class="flex justify-end">
+                <button 
+                  type="button" 
+                  onclick="nextStep(2)"
+                  class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  Next Step <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Step 2: Professional Details -->
+        <div id="step2" class="registration-step hidden">
+          <div class="p-8">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-6">Step 2: Professional Information</h2>
+            
+            <form id="professionalForm" class="space-y-6">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label for="licenseNumber" class="block text-sm font-medium text-gray-700 mb-2">
+                    Real Estate License Number *
+                  </label>
+                  <input 
+                    type="text" 
+                    id="licenseNumber" 
+                    name="licenseNumber" 
+                    required 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Enter your license number"
+                  >
+                </div>
+
+                <div>
+                  <label for="experience" class="block text-sm font-medium text-gray-700 mb-2">
+                    Years of Experience *
+                  </label>
+                  <select 
+                    id="experience" 
+                    name="experience" 
+                    required 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="">Select experience</option>
+                    <option value="0">New Agent (0 years)</option>
+                    <option value="1">1-2 years</option>
+                    <option value="3">3-5 years</option>
+                    <option value="6">6-10 years</option>
+                    <option value="11">11-15 years</option>
+                    <option value="16">16+ years</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Specializations *
+                </label>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  <label class="flex items-center">
+                    <input type="checkbox" name="specialization" value="residential" class="mr-2">
+                    <span class="text-sm">Residential</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" name="specialization" value="commercial" class="mr-2">
+                    <span class="text-sm">Commercial</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" name="specialization" value="land" class="mr-2">
+                    <span class="text-sm">Land/Plots</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" name="specialization" value="luxury" class="mr-2">
+                    <span class="text-sm">Luxury Properties</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" name="specialization" value="rental" class="mr-2">
+                    <span class="text-sm">Rentals</span>
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                <label for="bio" class="block text-sm font-medium text-gray-700 mb-2">
+                  Professional Bio
+                </label>
+                <textarea 
+                  id="bio" 
+                  name="bio" 
+                  rows="4"
+                  maxlength="500"
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Tell potential clients about your experience, achievements, and approach to real estate..."
+                ></textarea>
+                <p class="text-xs text-gray-500 mt-1">Maximum 500 characters</p>
+              </div>
+
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Business Address
+                </label>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <input 
+                      type="text" 
+                      name="street" 
+                      placeholder="Street Address"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    >
+                  </div>
+                  <div>
+                    <input 
+                      type="text" 
+                      name="city" 
+                      placeholder="City"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    >
+                  </div>
+                  <div>
+                    <input 
+                      type="text" 
+                      name="state" 
+                      placeholder="State"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    >
+                  </div>
+                  <div>
+                    <input 
+                      type="text" 
+                      name="zipCode" 
+                      placeholder="ZIP Code"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex justify-between">
+                <button 
+                  type="button" 
+                  onclick="prevStep(1)"
+                  class="bg-gray-300 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                >
+                  <i class="fas fa-arrow-left mr-2"></i> Previous
+                </button>
+                <button 
+                  type="button" 
+                  onclick="nextStep(3)"
+                  class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  Next Step <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Step 3: Verification -->
+        <div id="step3" class="registration-step hidden">
+          <div class="p-8">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-6">Step 3: Verification & Agreement</h2>
+            
+            <div class="space-y-6">
+              <!-- Profile Picture Upload -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Profile Picture (Optional)
+                </label>
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                  <input type="file" id="profilePicture" accept="image/*" class="hidden">
+                  <label for="profilePicture" class="cursor-pointer">
+                    <i class="fas fa-camera text-4xl text-gray-400 mb-4"></i>
+                    <p class="text-gray-600">Click to upload profile picture</p>
+                    <p class="text-sm text-gray-500">JPG, PNG or GIF (Max 5MB)</p>
+                  </label>
+                </div>
+                <div id="profilePreview" class="mt-4 hidden">
+                  <img id="profileImg" class="w-32 h-32 rounded-full mx-auto object-cover">
+                </div>
+              </div>
+
+              <!-- License Verification -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  License Verification Document
+                </label>
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                  <input type="file" id="licenseDoc" accept=".pdf,.jpg,.jpeg,.png" class="hidden">
+                  <label for="licenseDoc" class="cursor-pointer">
+                    <i class="fas fa-file-upload text-4xl text-gray-400 mb-4"></i>
+                    <p class="text-gray-600">Upload your license document</p>
+                    <p class="text-sm text-gray-500">PDF, JPG, or PNG (Max 10MB)</p>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Terms and Conditions -->
+              <div class="bg-gray-50 p-6 rounded-lg">
+                <h3 class="text-lg font-semibold mb-4">Terms and Conditions</h3>
+                <div class="space-y-4 text-sm text-gray-600 max-h-40 overflow-y-auto">
+                  <p>By registering as an agent on PropertyConnect, you agree to:</p>
+                  <ul class="list-disc list-inside space-y-2">
+                    <li>Provide accurate and truthful information in all listings</li>
+                    <li>Maintain professional standards in all client interactions</li>
+                    <li>Keep your real estate license current and valid</li>
+                    <li>Comply with all local and national real estate regulations</li>
+                    <li>Pay applicable commission fees as outlined in our fee structure</li>
+                    <li>Respect client confidentiality and data privacy</li>
+                  </ul>
+                </div>
+                
+                <div class="mt-4 space-y-3">
+                  <label class="flex items-center">
+                    <input type="checkbox" id="agreeTerms" required class="mr-2">
+                    <span class="text-sm">I agree to the Terms and Conditions</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" id="agreePrivacy" required class="mr-2">
+                    <span class="text-sm">I agree to the Privacy Policy</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" id="agreeMarketing" class="mr-2">
+                    <span class="text-sm">I agree to receive marketing communications (optional)</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="flex justify-between">
+                <button 
+                  type="button" 
+                  onclick="prevStep(2)"
+                  class="bg-gray-300 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                >
+                  <i class="fas fa-arrow-left mr-2"></i> Previous
+                </button>
+                <button 
+                  type="button" 
+                  id="submitRegistration"
+                  class="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <span id="submitText">Complete Registration</span>
+                  <i id="submitSpinner" class="fas fa-spinner fa-spin ml-2 hidden"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Success Message -->
+      <div id="successMessage" class="hidden mt-8 bg-green-100 border border-green-400 text-green-700 px-6 py-4 rounded-lg">
+        <div class="flex items-center">
+          <i class="fas fa-check-circle text-2xl mr-4"></i>
+          <div>
+            <h3 class="text-lg font-semibold">Registration Successful!</h3>
+            <p>Welcome to PropertyConnect! Your application is being reviewed. You'll receive an email confirmation within 24 hours.</p>
+            <div class="mt-4">
+              <a href="login.html" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Go to Login
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/api.js"></script>
+  <script>
+    let currentStep = 1;
+    let formData = {};
+
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+      const passwordInput = document.getElementById('password');
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+    });
+
+    // Profile picture preview
+    document.getElementById('profilePicture').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('profileImg').src = e.target.result;
+          document.getElementById('profilePreview').classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Step navigation
+    function nextStep(step) {
+      if (validateCurrentStep()) {
+        currentStep = step;
+        updateStepDisplay();
+      }
+    }
+
+    function prevStep(step) {
+      currentStep = step;
+      updateStepDisplay();
+    }
+
+    function updateStepDisplay() {
+      // Hide all steps
+      document.querySelectorAll('.registration-step').forEach(step => {
+        step.classList.add('hidden');
+      });
+
+      // Show current step
+      document.getElementById(`step${currentStep}`).classList.remove('hidden');
+
+      // Update step indicators
+      for (let i = 1; i <= 3; i++) {
+        const indicator = document.getElementById(`step${i}-indicator`);
+        const connector = document.getElementById(`connector${i}`);
+        
+        if (i <= currentStep) {
+          indicator.classList.remove('bg-gray-300', 'text-gray-600');
+          indicator.classList.add('bg-blue-600', 'text-white');
+          if (connector) {
+            connector.classList.remove('bg-gray-300');
+            connector.classList.add('bg-blue-600');
+          }
+        } else {
+          indicator.classList.remove('bg-blue-600', 'text-white');
+          indicator.classList.add('bg-gray-300', 'text-gray-600');
+          if (connector) {
+            connector.classList.remove('bg-blue-600');
+            connector.classList.add('bg-gray-300');
+          }
+        }
+      }
+    }
+
+    function validateCurrentStep() {
+      if (currentStep === 1) {
+        const form = document.getElementById('accountForm');
+        const formData = new FormData(form);
+        
+        // Check required fields
+        const requiredFields = ['firstName', 'lastName', 'email', 'password', 'confirmPassword', 'phone'];
+        for (let field of requiredFields) {
+          if (!formData.get(field)) {
+            alert(`Please fill in the ${field.replace(/([A-Z])/g, ' $1').toLowerCase()}`);
+            return false;
+          }
+        }
+
+        // Check password match
+        if (formData.get('password') !== formData.get('confirmPassword')) {
+          alert('Passwords do not match');
+          return false;
+        }
+
+        return true;
+      } else if (currentStep === 2) {
+        const licenseNumber = document.getElementById('licenseNumber').value;
+        const experience = document.getElementById('experience').value;
+        const specializations = document.querySelectorAll('input[name="specialization"]:checked');
+
+        if (!licenseNumber) {
+          alert('Please enter your license number');
+          return false;
+        }
+
+        if (!experience) {
+          alert('Please select your experience level');
+          return false;
+        }
+
+        if (specializations.length === 0) {
+          alert('Please select at least one specialization');
+          return false;
+        }
+
+        return true;
+      }
+
+      return true;
+    }
+
+    // Submit registration
+    document.getElementById('submitRegistration').addEventListener('click', async function() {
+      const agreeTerms = document.getElementById('agreeTerms').checked;
+      const agreePrivacy = document.getElementById('agreePrivacy').checked;
+
+      if (!agreeTerms || !agreePrivacy) {
+        alert('Please agree to the Terms and Conditions and Privacy Policy');
+        return;
+      }
+
+      try {
+        // Show loading state
+        this.disabled = true;
+        document.getElementById('submitText').textContent = 'Processing...';
+        document.getElementById('submitSpinner').classList.remove('hidden');
+
+        // Collect all form data
+        const accountData = new FormData(document.getElementById('accountForm'));
+        const professionalData = new FormData(document.getElementById('professionalForm'));
+        
+        const specializations = Array.from(document.querySelectorAll('input[name="specialization"]:checked'))
+          .map(cb => cb.value);
+
+        const registrationData = {
+          name: `${accountData.get('firstName')} ${accountData.get('lastName')}`,
+          email: accountData.get('email'),
+          password: accountData.get('password'),
+          role: 'agent',
+          agentProfile: {
+            licenseNumber: professionalData.get('licenseNumber'),
+            experience: parseInt(professionalData.get('experience')),
+            specialization: specializations,
+            phone: accountData.get('phone'),
+            bio: professionalData.get('bio'),
+            address: {
+              street: professionalData.get('street'),
+              city: professionalData.get('city'),
+              state: professionalData.get('state'),
+              zipCode: professionalData.get('zipCode'),
+              country: 'India'
+            }
+          }
+        };
+
+        // Register user (this will work once backend routes are set up)
+        console.log('Registration data:', registrationData);
+        
+        // For now, show success message
+        // await API.auth.register(registrationData);
+        
+        // Show success message
+        document.querySelector('.max-w-4xl').classList.add('hidden');
+        document.getElementById('successMessage').classList.remove('hidden');
+
+        // In a real implementation, you would:
+        // 1. Submit the registration data to the backend
+        // 2. Upload the profile picture and license document
+        // 3. Handle success/error responses
+
+      } catch (error) {
+        alert('Registration failed: ' + error.message);
+      } finally {
+        // Reset button state
+        this.disabled = false;
+        document.getElementById('submitText').textContent = 'Complete Registration';
+        document.getElementById('submitSpinner').classList.add('hidden');
+      }
+    });
+
+    // Initialize the form
+    updateStepDisplay();
+  </script>
+</body>
+</html>
